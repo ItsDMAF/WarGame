@@ -1,6 +1,7 @@
 package WarGameGUI;
 
 import javax.swing.JPanel;
+import java.util.Scanner;
 
 public class YourProject5 {
 
@@ -84,8 +85,37 @@ public class YourProject5 {
         16-You can download card images from the Interne to create your design.
         17-There is no pre-defined design of how the game will be at the end,
         the winning group game will be given 10 extra points,
-        
         */
+        int op = 0;
+        do {
+            System.out.println("WAR GAME\n"
+                    + "1 <- PVE Game\n"
+                    + "2 <- PVP Game\n"
+                    + "3 <- Create Player\n"
+                    + "4 <- Leaderboard\n"
+                    + "5 <- EXIT");
+            switch(op){
+                case 1:
+                    System.out.println("PVE");
+                    break;
+                case 2:
+                    System.out.println("PVP");
+                    break;
+                case 3:
+                    System.out.println("Create Player");
+                    break;
+                case 4:
+                    System.out.println("Leaderboard");
+                    break;
+                case 5:
+                    System.out.println("End");
+                    break; 
+                default:
+                    System.out.println("Not a Valid Option");
+                    break;
+            }
+            
+        }while(op != 4);
  
     }
     

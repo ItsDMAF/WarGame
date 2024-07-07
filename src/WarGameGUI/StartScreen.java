@@ -22,10 +22,11 @@ public class StartScreen extends JFrame {
 
     public StartScreen() {
         setTitle("Start Screen");
-        setSize(500, 250);
+        setSize(500, 380);
         setIconImage(img.getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         setupGUI();
     }
 
@@ -49,7 +50,7 @@ public class StartScreen extends JFrame {
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel nameLabel2 = new JLabel("Luka Beridze - Hemant Kumar - Digo Acosta");
+        JLabel nameLabel2 = new JLabel("Luka Beridze - Hemant Kumar - Diego Acosta");
         nameLabel2.setForeground(Color.black);
         nameLabel2.setFont(new Font("Arial", Font.PLAIN, 16));
         nameLabel2.setHorizontalAlignment(JLabel.CENTER);

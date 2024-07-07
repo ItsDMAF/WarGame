@@ -1,5 +1,6 @@
 package WarGameGUI;
 
+import Assets.Card;
 import Assets.Player;
 import GameLogic.AudioPlayer;
 import GameLogic.GameController;
@@ -7,6 +8,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.List;
 
 public class WarGameGUI extends JFrame {
 
@@ -32,6 +45,7 @@ public class WarGameGUI extends JFrame {
         setIconImage(img.getImage());
         setTitle("WAR GAME");
         setSize(850, 600);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         audioPlayer = new AudioPlayer();
         setupGUI();
@@ -49,7 +63,7 @@ public class WarGameGUI extends JFrame {
         nameLabel.setForeground(Color.black);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        JLabel nameLabel2 = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Mark Boxuen - Luka Beridze - Hemant Kumar - Digo Acosta");
+        JLabel nameLabel2 = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Mark Boxuan - Luka Beridze - Hemant Kumar - Diego Acosta");
         nameLabel2.setForeground(Color.black);
         nameLabel2.setFont(new Font("Arial", Font.PLAIN, 16));
         nameLabel2.setHorizontalAlignment(JLabel.CENTER);
@@ -70,7 +84,7 @@ public class WarGameGUI extends JFrame {
         mainMenuButton = new JButton("Quit");
         mainMenuButton.setBackground(new Color(0, 77, 0));
 
-        //NOT WORKIN------------------------------------------------------------
+        //WORKIN------------------------------------------------------------
         newGameButton = new JButton("New Game");
         newGameButton.setBackground(new Color(0, 77, 0));
 
@@ -84,8 +98,8 @@ public class WarGameGUI extends JFrame {
         buttonPanel.add(nextButton);
         buttonPanel.add(resolveWarButton);
         buttonPanel.add(mainMenuButton);
-
-        //NOT WORKING-----------------------------------------------------------
+        
+        //working
         buttonPanel.add(newGameButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(openButton);
@@ -173,7 +187,28 @@ public class WarGameGUI extends JFrame {
                 dispose();
             }
         });
-
+        
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NewGame();
+            }
+        });
+        
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveProgress();
+            }
+        });
+        
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openProgress();
+            }
+        });
+        
         audioPlayer.loopSound("src/soundfx/backgroundmusic.wav");
     }
 
@@ -242,6 +277,83 @@ public class WarGameGUI extends JFrame {
             computerWar2Label.setIcon(null);
         }
     }
+    
+    private void resetCardImage() {
+    	playerCardLabel.setIcon(new ImageIcon(cardBackImagePath));
+    	computerCardLabel.setIcon(new ImageIcon(cardBackImagePath));
+    }
+    
+    private void resetCount() {
+    	playerDeckCountLabel.setText("Deck: " + 0);
+        playerDiscardCountLabel.setText("Discard: " + 0);
+        computerDeckCountLabel.setText("Deck: " + 0);
+        computerDiscardCountLabel.setText("Discard: " + 0);
+    }
+    
+    private void NewGame() {
+        gameArea.setText("");
+        nextButton.setEnabled(false);
+        resetCount();
+        resetCardImage();
+    }
+    
+    private void saveProgress() {
+        try (FileOutputStream fileOut = new FileOutputStream("src/GameLogic/savegame.ser");
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+            objectOut.writeObject(gameController);
+            objectOut.writeObject(player1);
+            objectOut.writeObject(player2);
+            gameArea.setText("Game saved successfully!\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+            gameArea.setText("Failed to save game!\n");
+        }
+    }
+    
+    private void openProgress() {
+        try (FileInputStream fileIn = new FileInputStream("src/GameLogic/savegame.ser");
+             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+            
+            GameController loadedGameController = (GameController) objectIn.readObject();
+            Player loadedPlayer1 = (Player) objectIn.readObject();
+            Player loadedPlayer2 = (Player) objectIn.readObject();
+            
+            // Debugging statements
+            System.out.println("Loaded GameController: " + loadedGameController);
+            System.out.println("Loaded Player 1: " + loadedPlayer1);
+            System.out.println("Loaded Player 2: " + loadedPlayer2);
+            
+            if (loadedGameController == null || loadedPlayer1 == null || loadedPlayer2 == null) {
+                throw new NullPointerException("One or more deserialized objects are null.");
+            }
+
+            // Ensure gameController is initialized
+            if (gameController == null) {
+                gameController = new GameController(player1, player2, vsComputer);
+            }
+            
+            // Update the existing gameController's state
+            gameController.updateState(loadedGameController);
+            gameController.getPlayer1().updateState(loadedPlayer1);
+            gameController.getPlayer2().updateState(loadedPlayer2);
+
+            // Update UI components
+            updateCounts();
+            updateCardImages();
+
+            gameArea.setText("Game loaded successfully!\n");
+            nextButton.setEnabled(true);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            gameArea.setText("Failed to load game!\n");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            gameArea.setText("Failed to load game due to null objects!\n");
+        }
+    }
+
+    	
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

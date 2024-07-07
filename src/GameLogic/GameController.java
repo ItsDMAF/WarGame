@@ -3,11 +3,14 @@ package GameLogic;
 import Assets.Card;
 import Assets.Deck;
 import Assets.Player;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameController {
+public class GameController implements Serializable {
+	private static final long serialVersionUID = 1L;
     private final Player player1;
     private final Player player2;
     private final Deck deck;
@@ -153,6 +156,19 @@ public class GameController {
     public void setIsWar(boolean isWar) {
         this.isWar = isWar;
     }
+    
+    
+    public void updateState(GameController other) {
+        if (!this.player1.getName().equals(other.getPlayer1().getName()) || !this.player2.getName().equals(other.getPlayer2().getName())) {
+            throw new IllegalArgumentException("Player names do not match");
+        }
+        this.isWar = other.isWar();
+        this.warPile.clear();
+        this.warPile.addAll(other.getWarPile());
+        this.player1Card = other.getPlayer1Card();
+        this.player2Card = other.getPlayer2Card();
+    }
+    
 
     @Override
     public String toString() {

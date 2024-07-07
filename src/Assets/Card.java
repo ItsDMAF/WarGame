@@ -1,7 +1,10 @@
 package Assets;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     private final String suit;
+    private static final long serialVersionUID = 1L;
     private final int rank;
     private final String imagePath;
 

@@ -1,12 +1,14 @@
 package Assets;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Deck {
+public class Deck implements Serializable {
+	private static final long serialVersionUID = 1L;
     private final List<Card> cards;
-    private final Random random;
+    private transient final Random random;
 
     public Deck() {
         cards = new ArrayList<>();

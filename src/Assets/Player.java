@@ -1,11 +1,13 @@
 package Assets;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private final String name;
+    private static final long serialVersionUID = 1L;
     private final LinkedList<Card> hand;
     private final LinkedList<Card> discardPile;
 
@@ -40,6 +42,17 @@ public class Player {
         hand.addAll(discardPile);
         discardPile.clear();
     }
+    
+    public void updateState(Player other) {
+        if (!this.name.equals(other.getName())) {
+            throw new IllegalArgumentException("Player names do not match");
+        }
+        this.hand.clear();
+        this.hand.addAll(other.getHand());
+        this.discardPile.clear();
+        this.discardPile.addAll(other.getDiscardPile());
+    }
+    
 
     @Override
     public String toString() {

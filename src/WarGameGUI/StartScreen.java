@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class StartScreen extends JFrame {
-
     private JTextField playerNameField;
     private JTextField player2NameField;
     private JButton startButton;
@@ -30,11 +29,14 @@ public class StartScreen extends JFrame {
         setupGUI();
     }
 
+    // Set up the GUI
     private void setupGUI() {
         setLayout(new BorderLayout());
 
-        // TITLE PANEL -------------------------------------------------------------------
+        // TITLE PANEL
+        // -------------------------------------------------------------------
         JPanel titlePanel = new JPanel();
+        // Panels for titles
         titlePanel.setBackground(new Color(0, 90, 0));
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
 
@@ -43,7 +45,7 @@ public class StartScreen extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        // Labels for names
         JLabel nameLabel = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Boxuan Chen");
         nameLabel.setForeground(Color.black);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -61,15 +63,17 @@ public class StartScreen extends JFrame {
         titlePanel.add(nameLabel2);
         add(titlePanel, BorderLayout.NORTH);
 
-//MAIN PANEL--------------------------------------------------------------------
+        // MAIN
+        // PANEL--------------------------------------------------------------------
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(3, 1, 0, 10)); 
-        mainPanel.setBackground(new Color(0, 102, 0)); 
+        mainPanel.setLayout(new GridLayout(3, 1, 0, 10));
+        mainPanel.setBackground(new Color(0, 102, 0));
 
-//MODE SELECT PANEL-------------------------------------------------------------
+        // MODE SELECT
+        // PANEL-------------------------------------------------------------
         JPanel modePanel = new JPanel();
         modePanel.setBackground(new Color(0, 102, 0));
-        modePanel.setLayout(new GridLayout(1, 2)); 
+        modePanel.setLayout(new GridLayout(1, 2));
 
         vsComputerButton = new JRadioButton("Play Against Computer");
         vsPlayerButton = new JRadioButton("Play Against Another Player");
@@ -79,16 +83,17 @@ public class StartScreen extends JFrame {
         vsComputerButton.setSelected(true);
         vsComputerButton.setForeground(Color.black);
         vsPlayerButton.setForeground(Color.black);
-        vsComputerButton.setBackground(new Color(0, 90, 0)); 
+        vsComputerButton.setBackground(new Color(0, 90, 0));
         vsPlayerButton.setBackground(new Color(0, 90, 0));
 
         modePanel.add(vsComputerButton);
         modePanel.add(vsPlayerButton);
 
-//PLAYER NAMING PANEL-----------------------------------------------------------
+        // PLAYER NAMING
+        // PANEL-----------------------------------------------------------
         JPanel playerNamePanel = new JPanel();
         playerNamePanel.setBackground(new Color(0, 102, 0));
-        playerNamePanel.setLayout(new GridLayout(2, 2, 5, 5)); 
+        playerNamePanel.setLayout(new GridLayout(2, 2, 5, 5));
 
         JLabel player1Label = new JLabel("Enter Name of Player 1:");
         player1Label.setForeground(Color.black);
@@ -104,25 +109,28 @@ public class StartScreen extends JFrame {
         playerNamePanel.add(player2Label);
 
         player2NameField = new JTextField(15);
-        player2NameField.setBackground(new Color(0, 102, 0)); 
+        player2NameField.setBackground(new Color(0, 102, 0));
         player2NameField.setForeground(Color.white);
         player2NameField.setEnabled(false);
         playerNamePanel.add(player2NameField);
 
-//START PANEL-------------------------------------------------------------------
+        // START
+        // PANEL-------------------------------------------------------------------
         JPanel startButtonPanel = new JPanel();
         startButtonPanel.setBackground(new Color(0, 90, 0));
         startButton = new JButton("Start Game");
         startButton.setFont(new Font("Arial", Font.BOLD, 16));
         startButton.setForeground(Color.black);
         startButton.setBackground(new Color(0, 77, 0));
+
+        // Connect start() with the start button
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startGame();
             }
         });
-
+        // Set exit button
         JPanel exitButtonPanel = new JPanel();
         exitButtonPanel.setBackground(new Color(0, 90, 0));
         exitButton = new JButton("Exit");
@@ -137,20 +145,20 @@ public class StartScreen extends JFrame {
         });
         startButtonPanel.add(startButton);
         startButtonPanel.add(exitButton);
-
+        // Add smaller panels to bigger
         mainPanel.add(modePanel);
         mainPanel.add(playerNamePanel);
         mainPanel.add(startButtonPanel);
 
         add(mainPanel, BorderLayout.CENTER);
-
+        // Connect button with function
         vsPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player2NameField.setEnabled(true);
             }
         });
-
+        // Connect button with function
         vsComputerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,6 +167,7 @@ public class StartScreen extends JFrame {
         });
     }
 
+    // Determine if PVP or PVE
     private void startGame() {
         String playerName = playerNameField.getText().trim();
         String player2Name = player2NameField.getText().trim();
@@ -184,6 +193,8 @@ public class StartScreen extends JFrame {
         gameGUI.setVisible(true);
         dispose();
     }
+
+    // Start the main function
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

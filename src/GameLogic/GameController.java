@@ -4,13 +4,18 @@ import Assets.Card;
 import Assets.Deck;
 import Assets.Player;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class GameController implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private final Player player1;
     private final Player player2;
     private final Deck deck;
@@ -29,6 +34,7 @@ public class GameController implements Serializable {
         this.vsComputer = vsComputer;
     }
 
+    // Initialize before for new game
     public void startGame() {
         player1.getHand().clear();
         player1.getDiscardPile().clear();
@@ -43,14 +49,17 @@ public class GameController implements Serializable {
         player2.addCardsToHand(secondHalf);
     }
 
+    // For each rounds
     public String playRound() {
+        // determine if players have cards on hands
+        // if empty and players will get cards from warpiles
         if (player1.getHand().isEmpty()) {
             player1.shuffleDiscardIntoHand();
         }
         if (player2.getHand().isEmpty()) {
             player2.shuffleDiscardIntoHand();
         }
-
+        // determine which players win (The one who lose everything piles)
         if (player1.getHand().isEmpty() || player2.getHand().isEmpty()) {
             return "Game Over! " + (player1.getHand().isEmpty() ? player2.getName() : player1.getName()) + " wins!";
         }
@@ -61,7 +70,7 @@ public class GameController implements Serializable {
         warPile.clear();
         warPile.add(player1Card);
         warPile.add(player2Card);
-
+        // Comparison of the cards from players
         int comparison = compareCards(player1Card, player2Card);
         if (comparison > 0) {
             player1.addCardsToDiscardPile(warPile);
@@ -77,12 +86,16 @@ public class GameController implements Serializable {
         }
     }
 
+    // Determine war condition
     public String resolveWar() {
-        if (!isWar) return "No war to resolve!";
-        
+        if (!isWar)
+            return "No war to resolve!";
+
         for (int i = 0; i < 3; i++) {
-            if (player1.getHand().isEmpty()) player1.shuffleDiscardIntoHand();
-            if (player2.getHand().isEmpty()) player2.shuffleDiscardIntoHand();
+            if (player1.getHand().isEmpty())
+                player1.shuffleDiscardIntoHand();
+            if (player2.getHand().isEmpty())
+                player2.shuffleDiscardIntoHand();
 
             if (player1.getHand().isEmpty() || player2.getHand().isEmpty()) {
                 return "Game Over! " + (player1.getHand().isEmpty() ? player2.getName() : player1.getName()) + " wins!";
@@ -108,43 +121,57 @@ public class GameController implements Serializable {
         }
     }
 
+    // Compare cards for win condition
     private int compareCards(Card c1, Card c2) {
         // Compare Jokers first
-        if (c1.getRank() == 15 && c2.getRank() == 15) return 0;
-        if (c1.getRank() == 15) return 1;
-        if (c2.getRank() == 15) return -1;
+        if (c1.getRank() == 15 && c2.getRank() == 15)
+            return 0;
+        if (c1.getRank() == 15)
+            return 1;
+        if (c2.getRank() == 15)
+            return -1;
 
-        if (c1.getRank() == 14 && c2.getRank() == 14) return 0;
-        if (c1.getRank() == 14) return 1;
-        if (c2.getRank() == 14) return -1;
+        if (c1.getRank() == 14 && c2.getRank() == 14)
+            return 0;
+        if (c1.getRank() == 14)
+            return 1;
+        if (c2.getRank() == 14)
+            return -1;
 
         return Integer.compare(c1.getRank(), c2.getRank());
     }
 
+    // Getter of player1
     public Player getPlayer1() {
         return player1;
     }
 
+    // Getter of player2
     public Player getPlayer2() {
         return player2;
     }
 
+    // Getter of warpile list
     public List<Card> getWarPile() {
         return warPile;
     }
 
+    // Getter of player1 cards
     public Card getPlayer1Card() {
         return player1Card;
     }
 
+    // Getter of player2 cards
     public Card getPlayer2Card() {
         return player2Card;
     }
 
+    // Getter of boolean war condition
     public boolean isWar() {
         return isWar;
     }
 
+    // Getter of boolean if play with computers
     public boolean isVsComputer() {
         return vsComputer;
     }
@@ -156,10 +183,10 @@ public class GameController implements Serializable {
     public void setIsWar(boolean isWar) {
         this.isWar = isWar;
     }
-    
-    
+
     public void updateState(GameController other) {
-        if (!this.player1.getName().equals(other.getPlayer1().getName()) || !this.player2.getName().equals(other.getPlayer2().getName())) {
+        if (!this.player1.getName().equals(other.getPlayer1().getName())
+                || !this.player2.getName().equals(other.getPlayer2().getName())) {
             throw new IllegalArgumentException("Player names do not match");
         }
         this.isWar = other.isWar();
@@ -168,20 +195,18 @@ public class GameController implements Serializable {
         this.player1Card = other.getPlayer1Card();
         this.player2Card = other.getPlayer2Card();
     }
-    
 
     @Override
     public String toString() {
-        return "GameController" 
-                + "\nplayer1:" + player1 
-                + "\nplayer2:" + player2 
-                + "\ndeck:" + deck 
-                + "\nisWar:" + isWar 
-                + "\nwarPile:" + warPile 
-                + "\nplayer1Card:" + player1Card 
-                + "\nplayer2Card:" + player2Card 
+        return "GameController"
+                + "\nplayer1:" + player1
+                + "\nplayer2:" + player2
+                + "\ndeck:" + deck
+                + "\nisWar:" + isWar
+                + "\nwarPile:" + warPile
+                + "\nplayer1Card:" + player1Card
+                + "\nplayer2Card:" + player2Card
                 + "\nvsComputer:" + vsComputer;
     }
-    
-    
+
 }

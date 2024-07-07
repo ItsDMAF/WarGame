@@ -13,26 +13,29 @@ public class Card implements Serializable {
         this.rank = rank;
         this.imagePath = imagePath;
     }
-    
+
+    // Getter of suit
     public String getSuit() {
         return suit;
     }
 
+    // Getter of rank
     public int getRank() {
         return rank;
     }
 
+    // Getter of ImagePath
     public String getImagePath() {
         return imagePath;
     }
 
+    // Getter
     @Override
     public String toString() {
         return "Card"
                 + "\nsuit:" + suit
-                + "\nrank:" + rank 
+                + "\nrank:" + rank
                 + "\nimagePath:" + imagePath;
     }
-    
-    
+
 }

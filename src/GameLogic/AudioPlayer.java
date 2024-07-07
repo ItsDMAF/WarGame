@@ -7,6 +7,7 @@ import javax.sound.sampled.*;
 public class AudioPlayer {
     private Clip clip;
 
+    // To play the music
     public void playSound(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
@@ -19,6 +20,7 @@ public class AudioPlayer {
         }
     }
 
+    // Make the music to play as loop
     public void loopSound(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
@@ -31,25 +33,27 @@ public class AudioPlayer {
         }
     }
 
+    // Stop the music
     public void stopSound() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
         }
     }
 
+    // Getter of music
     public Clip getClip() {
         return clip;
     }
 
+    // Setter of music
     public void setClip(Clip clip) {
         this.clip = clip;
     }
 
     @Override
     public String toString() {
-        return "AudioPlayer" 
+        return "AudioPlayer"
                 + "\nclip=" + clip;
     }
-    
-    
+
 }

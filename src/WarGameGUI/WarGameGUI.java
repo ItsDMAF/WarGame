@@ -169,6 +169,8 @@ public class WarGameGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playRound();
+                            audioPlayer.playSound("src/soundfx/Drawcard.wav");
+
             }
         });
 
@@ -176,6 +178,8 @@ public class WarGameGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resolveWar();
+                            audioPlayer.playSound("src/soundfx/Drawcard.wav");
+
             }
         });
 

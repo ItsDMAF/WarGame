@@ -172,7 +172,7 @@ public class WarGameGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playRound();
-                isDummy();
+                //isDummy();
                 audioPlayer.playSound("src/soundfx/Drawcard.wav");
             }
         });
@@ -291,13 +291,14 @@ public class WarGameGUI extends JFrame {
     }
 
     // Play specific sound if card is a dummy card
+/*
     public void isDummy() {
         if (gameController.getPlayer1Card().getImagePath() == "src/images/6-1.gif"
                 || gameController.getPlayer1Card().getImagePath() == "src/images/6-2.gif") {
             audioPlayer.playSound("src/soundfx/Rickroll.wav");
         }
     }
-
+*/
     // Reset card images to the back of card image
     private void resetCardImage() {
         playerCardLabel.setIcon(new ImageIcon(cardBackImagePath));

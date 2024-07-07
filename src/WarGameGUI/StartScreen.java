@@ -1,10 +1,12 @@
 package WarGameGUI;
 
 import Assets.Player;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 public class StartScreen extends JFrame {
@@ -12,6 +14,7 @@ public class StartScreen extends JFrame {
     private JTextField player2NameField;
     private JButton startButton;
     private JButton exitButton;
+    private JButton audioButton; // New button for audio frame
     private JRadioButton vsComputerButton;
     private JRadioButton vsPlayerButton;
     private ButtonGroup modeGroup;
@@ -130,6 +133,7 @@ public class StartScreen extends JFrame {
                 startGame();
             }
         });
+
         // Set exit button
         JPanel exitButtonPanel = new JPanel();
         exitButtonPanel.setBackground(new Color(0, 90, 0));
@@ -143,14 +147,30 @@ public class StartScreen extends JFrame {
                 System.exit(0);
             }
         });
+
+        // Add new button for audio frame
+        audioButton = new JButton("???");
+        audioButton.setFont(new Font("Arial", Font.BOLD, 16));
+        audioButton.setForeground(Color.black);
+        audioButton.setBackground(new Color(0, 77, 0));
+        audioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playAudio();
+            }
+        });
+
         startButtonPanel.add(startButton);
+        startButtonPanel.add(audioButton); // Add the new button to the panel
         startButtonPanel.add(exitButton);
+
         // Add smaller panels to bigger
         mainPanel.add(modePanel);
         mainPanel.add(playerNamePanel);
         mainPanel.add(startButtonPanel);
 
         add(mainPanel, BorderLayout.CENTER);
+
         // Connect button with function
         vsPlayerButton.addActionListener(new ActionListener() {
             @Override
@@ -165,6 +185,47 @@ public class StartScreen extends JFrame {
                 player2NameField.setEnabled(false);
             }
         });
+    }
+
+    // Method to play audio and display image
+    
+    private void playAudio() {
+        // Create a new dialog
+        JDialog audioDialog = new JDialog(this, "Audio Dialog", true);
+        audioDialog.setSize(70, 100);
+        audioDialog.setLayout(new BorderLayout());
+        audioDialog.setLocationRelativeTo(this);
+        audioDialog.setUndecorated(true);
+
+        // Add image
+        JLabel imageLabel = new JLabel(new ImageIcon("src/images/6-1.gif"));
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        audioDialog.add(imageLabel, BorderLayout.CENTER);
+
+        // Set background color to black
+        audioDialog.getContentPane().setBackground(Color.BLACK);
+
+        // Load and play audio
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/soundfx/Rickroll.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+
+            // Add listener to close the dialog when audio finishes
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                    audioDialog.dispose();
+                }
+            });
+
+            // Start playing audio
+            clip.start();
+            audioDialog.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error playing audio: " + ex.getMessage());
+        }
     }
 
     // Determine if PVP or PVE

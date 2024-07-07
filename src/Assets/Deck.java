@@ -26,15 +26,19 @@ public class Deck implements Serializable {
         }
 
         // Adding the Joker cards Paths and dummy cards
+
         String joker1Path = "src/images/5-1.gif";
         String joker2Path = "src/images/5-2.gif";
+/*
         String Dummy1Path = "src/images/6-1.gif";
         String Dummy2Path = "src/images/6-2.gif";
-
+*/
         cards.add(new Card("Joker", 15, joker1Path));
         cards.add(new Card("Joker", 15, joker2Path));
+/*
         cards.add(new Card("Dummycard1", 15, Dummy1Path));
         cards.add(new Card("Dummycard2", 15, Dummy2Path));
+*/
     }
     // Use random to shuffle the cards
 

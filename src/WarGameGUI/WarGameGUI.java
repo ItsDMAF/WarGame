@@ -15,7 +15,7 @@ public class WarGameGUI extends JFrame {
     private JLabel playerWar1Label, playerWar2Label, computerWar1Label, computerWar2Label;
     private JLabel playerDeckCountLabel, playerDiscardCountLabel, computerDeckCountLabel, computerDiscardCountLabel;
     private JTextArea gameArea;
-    private JButton startButton, nextButton, resolveWarButton, mainMenuButton;
+    private JButton startButton, nextButton, resolveWarButton, mainMenuButton, newGameButton, saveButton, openButton;
     private final AudioPlayer audioPlayer;
 
     private final String cardBackImagePath = "src/images/rear.gif";
@@ -58,23 +58,39 @@ public class WarGameGUI extends JFrame {
 
 //BUTTON PANEL------------------------------------------------------------------
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBackground(new Color(0, 112, 0)); 
+        buttonPanel.setBackground(new Color(0, 112, 0));
         startButton = new JButton(vsComputer ? "Start PvE" : "Start PvP");
-        startButton.setBackground(new Color(0, 77, 0)); 
+        startButton.setBackground(new Color(0, 77, 0));
         nextButton = new JButton("Next");
-        nextButton.setBackground(new Color(0, 77, 0)); 
+        nextButton.setBackground(new Color(0, 77, 0));
         nextButton.setEnabled(false);
         resolveWarButton = new JButton("War");
         resolveWarButton.setBackground(new Color(0, 77, 0));
         resolveWarButton.setEnabled(false);
-        mainMenuButton = new JButton("Quit"); 
+        mainMenuButton = new JButton("Quit");
         mainMenuButton.setBackground(new Color(0, 77, 0));
 
+        //NOT WORKIN------------------------------------------------------------
+        newGameButton = new JButton("New Game");
+        newGameButton.setBackground(new Color(0, 77, 0));
+
+        saveButton = new JButton("Save");
+        saveButton.setBackground(new Color(0, 77, 0));
+
+        openButton = new JButton("Open");
+        openButton.setBackground(new Color(0, 77, 0));
+        //----------------------------------------------------------------------
         buttonPanel.add(startButton);
         buttonPanel.add(nextButton);
         buttonPanel.add(resolveWarButton);
         buttonPanel.add(mainMenuButton);
 
+        //NOT WORKING-----------------------------------------------------------
+        buttonPanel.add(newGameButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(openButton);
+        //----------------------------------------------------------------------
+        
         setLocationRelativeTo(null);
 
         gameArea = new JTextArea(5, 30);

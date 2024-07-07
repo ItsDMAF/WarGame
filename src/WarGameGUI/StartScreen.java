@@ -44,7 +44,7 @@ public class StartScreen extends JFrame {
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel nameLabel = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Mark Boxuen");
+        JLabel nameLabel = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Boxuan Chen");
         nameLabel.setForeground(Color.black);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         nameLabel.setHorizontalAlignment(JLabel.CENTER);

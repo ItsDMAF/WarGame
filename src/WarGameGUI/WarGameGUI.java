@@ -63,7 +63,7 @@ public class WarGameGUI extends JFrame {
         nameLabel.setForeground(Color.black);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        JLabel nameLabel2 = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Mark Boxuan - Luka Beridze - Hemant Kumar - Diego Acosta");
+        JLabel nameLabel2 = new JLabel("Diego Andino - Alejandro Guerra - Keven Quevedo - Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta");
         nameLabel2.setForeground(Color.black);
         nameLabel2.setFont(new Font("Arial", Font.PLAIN, 16));
         nameLabel2.setHorizontalAlignment(JLabel.CENTER);

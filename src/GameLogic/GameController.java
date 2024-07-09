@@ -13,7 +13,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 public class GameController implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Player player1;
@@ -88,14 +91,17 @@ public class GameController implements Serializable {
 
     // Determine war condition
     public String resolveWar() {
-        if (!isWar)
+        if (!isWar) {
             return "No war to resolve!";
+        }
 
         for (int i = 0; i < 3; i++) {
-            if (player1.getHand().isEmpty())
+            if (player1.getHand().isEmpty()) {
                 player1.shuffleDiscardIntoHand();
-            if (player2.getHand().isEmpty())
+            }
+            if (player2.getHand().isEmpty()) {
                 player2.shuffleDiscardIntoHand();
+            }
 
             if (player1.getHand().isEmpty() || player2.getHand().isEmpty()) {
                 return "Game Over! " + (player1.getHand().isEmpty() ? player2.getName() : player1.getName()) + " wins!";
@@ -124,19 +130,25 @@ public class GameController implements Serializable {
     // Compare cards for win condition
     private int compareCards(Card c1, Card c2) {
         // Compare Jokers first
-        if (c1.getRank() == 15 && c2.getRank() == 15)
+        if (c1.getRank() == 15 && c2.getRank() == 15) {
             return 0;
-        if (c1.getRank() == 15)
+        }
+        if (c1.getRank() == 15) {
             return 1;
-        if (c2.getRank() == 15)
+        }
+        if (c2.getRank() == 15) {
             return -1;
+        }
 
-        if (c1.getRank() == 14 && c2.getRank() == 14)
+        if (c1.getRank() == 14 && c2.getRank() == 14) {
             return 0;
-        if (c1.getRank() == 14)
+        }
+        if (c1.getRank() == 14) {
             return 1;
-        if (c2.getRank() == 14)
+        }
+        if (c2.getRank() == 14) {
             return -1;
+        }
 
         return Integer.compare(c1.getRank(), c2.getRank());
     }

@@ -8,16 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 public class StartScreen extends JFrame {
-    private JTextField playerNameField;
-    private JTextField player2NameField;
-    private JButton startButton;
-    private JButton exitButton;
-    private JButton audioButton; // New button for audio frame
-    private JRadioButton vsComputerButton;
-    private JRadioButton vsPlayerButton;
-    private ButtonGroup modeGroup;
+    private JTextField play1NameFL;
+    private JTextField play2NameFL;
+    private JButton startBtn;
+    private JButton exitBtn;
+    private JButton audioBtn;
+    private JRadioButton vsComputerBtn;
+    private JRadioButton vsPlayerBtn;
+    private ButtonGroup gameModes;
     private ArrayList<Player> players = new ArrayList<>();
 
     ImageIcon img = new ImageIcon("src/images/dizhu.gif");
@@ -78,19 +81,19 @@ public class StartScreen extends JFrame {
         modePanel.setBackground(new Color(0, 102, 0));
         modePanel.setLayout(new GridLayout(1, 2));
 
-        vsComputerButton = new JRadioButton("Play Against Computer");
-        vsPlayerButton = new JRadioButton("Play Against Another Player");
-        modeGroup = new ButtonGroup();
-        modeGroup.add(vsComputerButton);
-        modeGroup.add(vsPlayerButton);
-        vsComputerButton.setSelected(true);
-        vsComputerButton.setForeground(Color.black);
-        vsPlayerButton.setForeground(Color.black);
-        vsComputerButton.setBackground(new Color(0, 90, 0));
-        vsPlayerButton.setBackground(new Color(0, 90, 0));
+        vsComputerBtn = new JRadioButton("Play Against Computer");
+        vsPlayerBtn = new JRadioButton("Play Against Another Player");
+        gameModes = new ButtonGroup();
+        gameModes.add(vsComputerBtn);
+        gameModes.add(vsPlayerBtn);
+        vsComputerBtn.setSelected(true);
+        vsComputerBtn.setForeground(Color.black);
+        vsPlayerBtn.setForeground(Color.black);
+        vsComputerBtn.setBackground(new Color(0, 90, 0));
+        vsPlayerBtn.setBackground(new Color(0, 90, 0));
 
-        modePanel.add(vsComputerButton);
-        modePanel.add(vsPlayerButton);
+        modePanel.add(vsComputerBtn);
+        modePanel.add(vsPlayerBtn);
 
         // PLAYER NAMING
         // PANEL-----------------------------------------------------------
@@ -102,32 +105,32 @@ public class StartScreen extends JFrame {
         player1Label.setForeground(Color.black);
         playerNamePanel.add(player1Label);
 
-        playerNameField = new JTextField(15);
-        playerNameField.setBackground(new Color(0, 102, 0));
-        playerNameField.setForeground(Color.white);
-        playerNamePanel.add(playerNameField);
+        play1NameFL = new JTextField(15);
+        play1NameFL.setBackground(new Color(0, 102, 0));
+        play1NameFL.setForeground(Color.white);
+        playerNamePanel.add(play1NameFL);
 
         JLabel player2Label = new JLabel("Enter Name of Player 2:");
         player2Label.setForeground(Color.black);
         playerNamePanel.add(player2Label);
 
-        player2NameField = new JTextField(15);
-        player2NameField.setBackground(new Color(0, 102, 0));
-        player2NameField.setForeground(Color.white);
-        player2NameField.setEnabled(false);
-        playerNamePanel.add(player2NameField);
+        play2NameFL = new JTextField(15);
+        play2NameFL.setBackground(new Color(0, 102, 0));
+        play2NameFL.setForeground(Color.white);
+        play2NameFL.setEnabled(false);
+        playerNamePanel.add(play2NameFL);
 
         // START
         // PANEL-------------------------------------------------------------------
         JPanel startButtonPanel = new JPanel();
         startButtonPanel.setBackground(new Color(0, 90, 0));
-        startButton = new JButton("Start Game");
-        startButton.setFont(new Font("Arial", Font.BOLD, 16));
-        startButton.setForeground(Color.black);
-        startButton.setBackground(new Color(0, 77, 0));
+        startBtn = new JButton("Start Game");
+        startBtn.setFont(new Font("Arial", Font.BOLD, 16));
+        startBtn.setForeground(Color.black);
+        startBtn.setBackground(new Color(0, 77, 0));
 
         // Connect start() with the start button
-        startButton.addActionListener(new ActionListener() {
+        startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startGame();
@@ -137,11 +140,11 @@ public class StartScreen extends JFrame {
         // Set exit button
         JPanel exitButtonPanel = new JPanel();
         exitButtonPanel.setBackground(new Color(0, 90, 0));
-        exitButton = new JButton("Exit");
-        exitButton.setFont(new Font("Arial", Font.BOLD, 16));
-        exitButton.setForeground(Color.black);
-        exitButton.setBackground(new Color(0, 77, 0));
-        exitButton.addActionListener(new ActionListener() {
+        exitBtn = new JButton("Exit");
+        exitBtn.setFont(new Font("Arial", Font.BOLD, 16));
+        exitBtn.setForeground(Color.black);
+        exitBtn.setBackground(new Color(0, 77, 0));
+        exitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -149,20 +152,20 @@ public class StartScreen extends JFrame {
         });
 
         // Add new button for audio frame
-        audioButton = new JButton("???");
-        audioButton.setFont(new Font("Arial", Font.BOLD, 16));
-        audioButton.setForeground(Color.black);
-        audioButton.setBackground(new Color(0, 77, 0));
-        audioButton.addActionListener(new ActionListener() {
+        audioBtn = new JButton("???");
+        audioBtn.setFont(new Font("Arial", Font.BOLD, 16));
+        audioBtn.setForeground(Color.black);
+        audioBtn.setBackground(new Color(0, 77, 0));
+        audioBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playAudio();
             }
         });
 
-        startButtonPanel.add(startButton);
-        startButtonPanel.add(audioButton); // Add the new button to the panel
-        startButtonPanel.add(exitButton);
+        startButtonPanel.add(startBtn);
+        startButtonPanel.add(audioBtn); // Add the new button to the panel
+        startButtonPanel.add(exitBtn);
 
         // Add smaller panels to bigger
         mainPanel.add(modePanel);
@@ -172,23 +175,22 @@ public class StartScreen extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         // Connect button with function
-        vsPlayerButton.addActionListener(new ActionListener() {
+        vsPlayerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                player2NameField.setEnabled(true);
+                play2NameFL.setEnabled(true);
             }
         });
         // Connect button with function
-        vsComputerButton.addActionListener(new ActionListener() {
+        vsComputerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                player2NameField.setEnabled(false);
+                play2NameFL.setEnabled(false);
             }
         });
     }
 
     // Method to play audio and display image
-    
     private void playAudio() {
         // Create a new dialog
         JDialog audioDialog = new JDialog(this, "Audio Dialog", true);
@@ -230,15 +232,15 @@ public class StartScreen extends JFrame {
 
     // Determine if PVP or PVE
     private void startGame() {
-        String playerName = playerNameField.getText().trim();
-        String player2Name = player2NameField.getText().trim();
+        String playerName = play1NameFL.getText().trim();
+        String player2Name = play2NameFL.getText().trim();
 
         if (playerName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your name.");
             return;
         }
 
-        boolean vsComputer = vsComputerButton.isSelected();
+        boolean vsComputer = vsComputerBtn.isSelected();
         if (!vsComputer && player2Name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the second player's name.");
             return;

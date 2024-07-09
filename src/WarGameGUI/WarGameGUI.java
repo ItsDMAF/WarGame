@@ -20,32 +20,35 @@ import java.io.ObjectOutputStream;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 public class WarGameGUI extends JFrame {
-
+    
     // Declare game controller, audio player, and UI components
-    private GameController gameController;
-    private JLabel playerCardLabel, computerCardLabel;
+    private GameController gamePlay;
+    private JLabel playerCardLB, computerCardLB;
     private JLabel playerWar1Label, playerWar2Label, computerWar1Label, computerWar2Label;
-    private JLabel playerDeckCountLabel, playerDiscardCountLabel, computerDeckCountLabel, computerDiscardCountLabel;
-    private JTextArea gameArea;
-    private JButton startButton, nextButton, resolveWarButton, mainMenuButton, newGameButton, saveButton, openButton;
+    private JLabel playDeckCountLB, playDiscCountLB, compDeckCountLB, compDiscCountLB;
+    private JTextArea roundArea;
+    private JButton startBtn, nextBtn, warBtn, menuBtn, newBtn, saveBtn, openBtn;
     private final AudioPlayer audioPlayer;
 
     // Paths for card back image and window icon
-    private final String cardBackImagePath = "src/images/rear.gif";
+    private final String rearCardPath = "src/images/rear.gif";
     ImageIcon img = new ImageIcon("src/images/dizhu.gif");
 
     // Player instances and flag for playing against computer
     private final Player player1;
     private final Player player2;
-    private final boolean vsComputer;
+    private final boolean vsType;
 
     // Constructor to initialize the GUI with players and game mode
     public WarGameGUI(Player player1, Player player2, boolean vsComputer) {
         this.player1 = player1;
         this.player2 = player2;
-        this.vsComputer = vsComputer;
+        this.vsType = vsComputer;
         setIconImage(img.getImage());
         setTitle("WAR GAME");
         setSize(850, 600);
@@ -79,39 +82,39 @@ public class WarGameGUI extends JFrame {
         // Setup button panel
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(new Color(0, 112, 0));
-        startButton = new JButton(vsComputer ? "Start PvE" : "Start PvP");
-        startButton.setBackground(new Color(0, 77, 0));
-        nextButton = new JButton("Next");
-        nextButton.setBackground(new Color(0, 77, 0));
-        nextButton.setEnabled(false);
-        resolveWarButton = new JButton("War");
-        resolveWarButton.setBackground(new Color(0, 77, 0));
-        resolveWarButton.setEnabled(false);
-        mainMenuButton = new JButton("Quit");
-        mainMenuButton.setBackground(new Color(0, 77, 0));
-        newGameButton = new JButton("New Game");
-        newGameButton.setBackground(new Color(0, 77, 0));
-        saveButton = new JButton("Save");
-        saveButton.setBackground(new Color(0, 77, 0));
-        openButton = new JButton("Open");
-        openButton.setBackground(new Color(0, 77, 0));
+        startBtn = new JButton(vsType ? "Start PvE" : "Start PvP");
+        startBtn.setBackground(new Color(0, 77, 0));
+        nextBtn = new JButton("Next");
+        nextBtn.setBackground(new Color(0, 77, 0));
+        nextBtn.setEnabled(false);
+        warBtn = new JButton("War");
+        warBtn.setBackground(new Color(0, 77, 0));
+        warBtn.setEnabled(false);
+        menuBtn = new JButton("Quit");
+        menuBtn.setBackground(new Color(0, 77, 0));
+        newBtn = new JButton("New Game");
+        newBtn.setBackground(new Color(0, 77, 0));
+        saveBtn = new JButton("Save");
+        saveBtn.setBackground(new Color(0, 77, 0));
+        openBtn = new JButton("Open");
+        openBtn.setBackground(new Color(0, 77, 0));
 
         // Add buttons to the button panel
-        buttonPanel.add(startButton);
-        buttonPanel.add(nextButton);
-        buttonPanel.add(resolveWarButton);
-        buttonPanel.add(mainMenuButton);
-        buttonPanel.add(newGameButton);
-        buttonPanel.add(saveButton);
-        buttonPanel.add(openButton);
+        buttonPanel.add(startBtn);
+        buttonPanel.add(nextBtn);
+        buttonPanel.add(warBtn);
+        buttonPanel.add(menuBtn);
+        buttonPanel.add(newBtn);
+        buttonPanel.add(saveBtn);
+        buttonPanel.add(openBtn);
 
         setLocationRelativeTo(null);
 
         // Setup game text area
-        gameArea = new JTextArea(5, 30);
-        gameArea.setBackground(new Color(0, 112, 0));
-        gameArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(gameArea);
+        roundArea = new JTextArea(5, 30);
+        roundArea.setBackground(new Color(0, 112, 0));
+        roundArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(roundArea);
         scrollPane.getViewport().setBackground(new Color(0, 90, 0));
 
         topPanel.add(namePanel, BorderLayout.NORTH);
@@ -129,26 +132,26 @@ public class WarGameGUI extends JFrame {
         computerPanel.setBackground(new Color(0, 102, 0));
 
         // Initialize card and count labels
-        playerCardLabel = new JLabel(new ImageIcon(cardBackImagePath));
-        computerCardLabel = new JLabel(new ImageIcon(cardBackImagePath));
+        playerCardLB = new JLabel(new ImageIcon(rearCardPath));
+        computerCardLB = new JLabel(new ImageIcon(rearCardPath));
         playerWar1Label = new JLabel();
         playerWar2Label = new JLabel();
         computerWar1Label = new JLabel();
         computerWar2Label = new JLabel();
 
-        playerDeckCountLabel = new JLabel("Deck: 0");
-        playerDiscardCountLabel = new JLabel("Discard: 0");
-        computerDeckCountLabel = new JLabel("Deck: 0");
-        computerDiscardCountLabel = new JLabel("Discard: 0");
+        playDeckCountLB = new JLabel("Deck: 0");
+        playDiscCountLB = new JLabel("Discard: 0");
+        compDeckCountLB = new JLabel("Deck: 0");
+        compDiscCountLB = new JLabel("Discard: 0");
 
         // Add components to player and computer panels
-        playerPanel.add(playerCardLabel, BorderLayout.CENTER);
-        playerPanel.add(playerDeckCountLabel, BorderLayout.NORTH);
-        playerPanel.add(playerDiscardCountLabel, BorderLayout.SOUTH);
+        playerPanel.add(playerCardLB, BorderLayout.CENTER);
+        playerPanel.add(playDeckCountLB, BorderLayout.NORTH);
+        playerPanel.add(playDiscCountLB, BorderLayout.SOUTH);
 
-        computerPanel.add(computerCardLabel, BorderLayout.CENTER);
-        computerPanel.add(computerDeckCountLabel, BorderLayout.NORTH);
-        computerPanel.add(computerDiscardCountLabel, BorderLayout.SOUTH);
+        computerPanel.add(computerCardLB, BorderLayout.CENTER);
+        computerPanel.add(compDeckCountLB, BorderLayout.NORTH);
+        computerPanel.add(compDiscCountLB, BorderLayout.SOUTH);
 
         // Add panels to middle panel
         middlePanel.add(playerPanel);
@@ -161,14 +164,14 @@ public class WarGameGUI extends JFrame {
         add(middlePanel, BorderLayout.CENTER);
 
         // Setup action listeners for buttons
-        startButton.addActionListener(new ActionListener() {
+        startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startGame();
             }
         });
 
-        nextButton.addActionListener(new ActionListener() {
+        nextBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playRound();
@@ -177,7 +180,7 @@ public class WarGameGUI extends JFrame {
             }
         });
 
-        resolveWarButton.addActionListener(new ActionListener() {
+        warBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resolveWar();
@@ -185,7 +188,7 @@ public class WarGameGUI extends JFrame {
             }
         });
 
-        mainMenuButton.addActionListener(new ActionListener() {
+        menuBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 audioPlayer.stopSound(); // Stop background music
@@ -194,21 +197,21 @@ public class WarGameGUI extends JFrame {
             }
         });
 
-        newGameButton.addActionListener(new ActionListener() {
+        newBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 NewGame();
             }
         });
 
-        saveButton.addActionListener(new ActionListener() {
+        saveBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveProgress();
             }
         });
 
-        openButton.addActionListener(new ActionListener() {
+        openBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openProgress();
@@ -221,67 +224,67 @@ public class WarGameGUI extends JFrame {
 
     // Method to start a new game
     private void startGame() {
-        gameController = new GameController(player1, player2, vsComputer);
-        gameController.startGame();
+        gamePlay = new GameController(player1, player2, vsType);
+        gamePlay.startGame();
         updateCounts();
-        gameArea.setText("Game started!\n");
-        nextButton.setEnabled(true);
-        resolveWarButton.setEnabled(false);
+        roundArea.setText("Game started!\n");
+        nextBtn.setEnabled(true);
+        warBtn.setEnabled(false);
     }
 
     // Method to play a round of the game
     private void playRound() {
-        String result = gameController.playRound();
+        String result = gamePlay.playRound();
         updateCounts();
         updateCardImages();
-        gameArea.append(result + "\n");
+        roundArea.append(result + "\n");
 
-        if (gameController.isWar()) {
-            nextButton.setEnabled(false);
-            resolveWarButton.setEnabled(true);
+        if (gamePlay.isWar()) {
+            nextBtn.setEnabled(false);
+            warBtn.setEnabled(true);
         }
 
         if (result.startsWith("Game Over!")) {
             audioPlayer.playSound("src/soundfx/win.wav");
-            nextButton.setEnabled(false);
-            resolveWarButton.setEnabled(false);
+            nextBtn.setEnabled(false);
+            warBtn.setEnabled(false);
         }
     }
 
     // Method to resolve a war situation
     private void resolveWar() {
-        String result = gameController.resolveWar();
+        String result = gamePlay.resolveWar();
         updateCounts();
         updateCardImages();
-        gameArea.append(result + "\n");
+        roundArea.append(result + "\n");
 
-        nextButton.setEnabled(true);
-        resolveWarButton.setEnabled(false);
+        nextBtn.setEnabled(true);
+        warBtn.setEnabled(false);
 
         if (result.startsWith("Game Over!")) {
             audioPlayer.playSound("src/soundfx/win.wav");
-            nextButton.setEnabled(false);
+            nextBtn.setEnabled(false);
         }
     }
 
     // Update the numbers of cards and piles
     private void updateCounts() {
-        playerDeckCountLabel.setText("Deck: " + player1.getHand().size());
-        playerDiscardCountLabel.setText("Discard: " + player1.getDiscardPile().size());
-        computerDeckCountLabel.setText("Deck: " + player2.getHand().size());
-        computerDiscardCountLabel.setText("Discard: " + player2.getDiscardPile().size());
+        playDeckCountLB.setText("Deck: " + player1.getHand().size());
+        playDiscCountLB.setText("Discard: " + player1.getDiscardPile().size());
+        compDeckCountLB.setText("Deck: " + player2.getHand().size());
+        compDiscCountLB.setText("Discard: " + player2.getDiscardPile().size());
     }
 
     // Update the image of the cards
     private void updateCardImages() {
-        playerCardLabel.setIcon(new ImageIcon(gameController.getPlayer1Card().getImagePath()));
-        computerCardLabel.setIcon(new ImageIcon(gameController.getPlayer2Card().getImagePath()));
+        playerCardLB.setIcon(new ImageIcon(gamePlay.getPlayer1Card().getImagePath()));
+        computerCardLB.setIcon(new ImageIcon(gamePlay.getPlayer2Card().getImagePath()));
 
-        if (gameController.isWar()) {
-            playerWar1Label.setIcon(new ImageIcon(cardBackImagePath));
-            playerWar2Label.setIcon(new ImageIcon(cardBackImagePath));
-            computerWar1Label.setIcon(new ImageIcon(cardBackImagePath));
-            computerWar2Label.setIcon(new ImageIcon(cardBackImagePath));
+        if (gamePlay.isWar()) {
+            playerWar1Label.setIcon(new ImageIcon(rearCardPath));
+            playerWar2Label.setIcon(new ImageIcon(rearCardPath));
+            computerWar1Label.setIcon(new ImageIcon(rearCardPath));
+            computerWar2Label.setIcon(new ImageIcon(rearCardPath));
         } else {
             playerWar1Label.setIcon(null);
             playerWar2Label.setIcon(null);
@@ -298,47 +301,45 @@ public class WarGameGUI extends JFrame {
             audioPlayer.playSound("src/soundfx/Rickroll.wav");
         }
     }
-*/
+     */
     // Reset card images to the back of card image
     private void resetCardImage() {
-        playerCardLabel.setIcon(new ImageIcon(cardBackImagePath));
-        computerCardLabel.setIcon(new ImageIcon(cardBackImagePath));
+        playerCardLB.setIcon(new ImageIcon(rearCardPath));
+        computerCardLB.setIcon(new ImageIcon(rearCardPath));
     }
 
     // Reset the count labels
     private void resetCount() {
-        playerDeckCountLabel.setText("Deck: " + 0);
-        playerDiscardCountLabel.setText("Discard: " + 0);
-        computerDeckCountLabel.setText("Deck: " + 0);
-        computerDiscardCountLabel.setText("Discard: " + 0);
+        playDeckCountLB.setText("Deck: " + 0);
+        playDiscCountLB.setText("Discard: " + 0);
+        compDeckCountLB.setText("Deck: " + 0);
+        compDiscCountLB.setText("Discard: " + 0);
     }
 
     // Reset the game area for a new game
     private void NewGame() {
-        gameArea.setText("");
-        nextButton.setEnabled(false);
+        roundArea.setText("");
+        nextBtn.setEnabled(false);
         resetCount();
         resetCardImage();
     }
 
     // Save the current game progress
     private void saveProgress() {
-        try (FileOutputStream fileOut = new FileOutputStream("src/GameLogic/savegame.ser");
-                ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-            objectOut.writeObject(gameController);
+        try (FileOutputStream fileOut = new FileOutputStream("src/GameLogic/savegame.ser"); ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+            objectOut.writeObject(gamePlay);
             objectOut.writeObject(player1);
             objectOut.writeObject(player2);
-            gameArea.setText("Game saved successfully!\n");
+            roundArea.setText("Game saved successfully!\n");
         } catch (IOException e) {
             e.printStackTrace();
-            gameArea.setText("Failed to save game!\n");
+            roundArea.setText("Failed to save game!\n");
         }
     }
 
     // Load a previously saved game progress
     private void openProgress() {
-        try (FileInputStream fileIn = new FileInputStream("src/GameLogic/savegame.ser");
-                ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+        try (FileInputStream fileIn = new FileInputStream("src/GameLogic/savegame.ser"); ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
 
             GameController loadedGameController = (GameController) objectIn.readObject();
             Player loadedPlayer1 = (Player) objectIn.readObject();
@@ -354,27 +355,27 @@ public class WarGameGUI extends JFrame {
             }
 
             // Ensure gameController is initialized
-            if (gameController == null) {
-                gameController = new GameController(player1, player2, vsComputer);
+            if (gamePlay == null) {
+                gamePlay = new GameController(player1, player2, vsType);
             }
 
             // Update the existing gameController's state
-            gameController.updateState(loadedGameController);
-            gameController.getPlayer1().updateState(loadedPlayer1);
-            gameController.getPlayer2().updateState(loadedPlayer2);
+            gamePlay.updateState(loadedGameController);
+            gamePlay.getPlayer1().updateState(loadedPlayer1);
+            gamePlay.getPlayer2().updateState(loadedPlayer2);
 
             // Update UI components
             updateCounts();
             updateCardImages();
 
-            gameArea.setText("Game loaded successfully!\n");
-            nextButton.setEnabled(true);
+            roundArea.setText("Game loaded successfully!\n");
+            nextBtn.setEnabled(true);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            gameArea.setText("Failed to load game!\n");
+            roundArea.setText("Failed to load game!\n");
         } catch (NullPointerException e) {
             e.printStackTrace();
-            gameArea.setText("Failed to load game due to null objects!\n");
+            roundArea.setText("Failed to load game due to null objects!\n");
         }
     }
 

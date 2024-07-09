@@ -3,7 +3,10 @@ package GameLogic;
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 public class AudioPlayer {
     private Clip clip;
 

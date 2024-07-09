@@ -1,7 +1,10 @@
 package Assets;
 
 import java.io.Serializable;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 //Use abstract way to get the dummy cards
 abstract class Dummycard implements Serializable {
     public abstract void Dummycard();

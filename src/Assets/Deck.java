@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/*
+Diego Andino - Alejandro Guerra - Keven Quevedo
+Boxuan Chen - Luka Beridze - Hemant Kumar - Diego Acosta
+*/
 public class Deck implements Serializable {
     private static final long serialVersionUID = 1L;
     private final List<Card> cards;
@@ -14,7 +17,7 @@ public class Deck implements Serializable {
         cards = new ArrayList<>();
         random = new Random();
         // Create a List for the suits
-        String[] suits = { "Spades", "Hearts", "Clubs", "Diamonds" };
+        String[] suits = {"Spades", "Hearts", "Clubs", "Diamonds"};
 
         // Adding the regular cards Paths(In image format)
         for (int suitNumber = 1; suitNumber <= 4; suitNumber++) {
@@ -26,19 +29,18 @@ public class Deck implements Serializable {
         }
 
         // Adding the Joker cards Paths and dummy cards
-
         String joker1Path = "src/images/5-1.gif";
         String joker2Path = "src/images/5-2.gif";
-/*
+        /*
         String Dummy1Path = "src/images/6-1.gif";
         String Dummy2Path = "src/images/6-2.gif";
-*/
+         */
         cards.add(new Card("Joker", 15, joker1Path));
         cards.add(new Card("Joker", 15, joker2Path));
-/*
+        /*
         cards.add(new Card("Dummycard1", 15, Dummy1Path));
         cards.add(new Card("Dummycard2", 15, Dummy2Path));
-*/
+         */
     }
     // Use random to shuffle the cards
 
